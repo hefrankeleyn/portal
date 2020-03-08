@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>期货交易员</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link th:href="@{/css/login.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<form class="form-signin"  th:action="@{/login}" method="post">
+    <div class="text-center mb-4">
+        <img class="mb-4 rounded-circle" th:src="@{/photos/logo.jpeg}" alt="" width="100" height="100">
+        <h1 class="h3 mb-3 font-weight-normal">期货交易员</h1>
+    </div>
+    <div class="text-center mb-4">
+        <span th:if="${loginError}" class="text-danger">用户名或密码错误</span>
+    </div>
+    <div class="form-label-group">
+        <input type="email" name="username" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputEmail" class="sr-only">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="inputPassword" class="sr-only">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <input type="checkbox" name="remember-me" value="Remember me" id="remember_me">
+        <label for="remember_me">Remember Me</label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2020-03</p>
+</form>
+
+</body>
+</html>

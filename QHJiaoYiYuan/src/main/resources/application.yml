@@ -1,0 +1,24 @@
+spring:
+  main:
+    # 关闭控制台 SpringBoot 的艺术字
+    banner-mode: "off"
+  profiles:
+    active: development
+
+---
+spring:
+  profiles: development
+  datasource:
+    url: jdbc:mysql://localhost:3306/hq_jiaoyiyuan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE
+    username: qhuser
+    password: qhworld
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+---
+spring:
+  profiles: production
+  datasource:
+    url: jdbc:mysql://140.143.204.224:3306/hq_jiaoyiyuan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE
+    username: qhuser
+    password: qhworld

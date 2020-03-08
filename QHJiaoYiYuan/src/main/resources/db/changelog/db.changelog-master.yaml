@@ -1,0 +1,108 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lifei
+      changes:
+        - createTable:
+            tableName: qh_users
+            columns:
+              - column:
+                  name: u_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: 主键，自增
+              - column:
+                  name: login_username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                  remarks: 登陆名（邮箱）
+              - column:
+                  name: login_password
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                  remarks: 登陆密码
+              - column:
+                  name: nickname
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  remarks: 昵称
+              - column:
+                  name: user_des
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+                  remarks: 用户描述
+              - column:
+                  name: create_date
+                  type: date
+                  constraints:
+                    nullable: true
+                  remarks: 创建时间
+
+  - changeSet:
+      id: 2
+      author: lifei
+      changes:
+        - createTable:
+            tableName: qh_roles
+            remarks: 角色表
+            columns:
+              - column:
+                  name: r_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: 主键，自增
+              - column:
+                  name: role_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+                  remarks: 角色的类型（英文标示）
+              - column:
+                  name: role_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+                  remarks: 角色的名称
+        - createTable:
+            tableName: qh_user_roles
+            remarks: 用户-角色表的关系
+            columns:
+              - column:
+                  name: u_id
+                  type: int
+                  constraints:
+                    nullable: false
+                  remarks: 用户的id
+              - column:
+                  name: r_id
+                  type: int
+                  constraints:
+                    nullable: false
+                  remarks: 角色的id
+  - changeSet:
+      id: addUniqueConstraint-user-login
+      author: lifei
+      changes:
+        - addUniqueConstraint:
+            columnNames: login_username
+            tableName: qh_users
+  - changeSet:
+      id: modify_qhuser_loginPassword_length
+      author: lifei
+      changes:
+        - modifyDataType:
+            columnName: login_password
+            newDataType: varchar(255)
+            tableName: qh_users
