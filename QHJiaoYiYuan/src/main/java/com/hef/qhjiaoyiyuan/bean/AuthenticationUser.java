@@ -35,6 +35,14 @@ public class AuthenticationUser implements UserDetails {
         return authorityList;
     }
 
+    public QHUser getQhUser() {
+        return qhUser;
+    }
+
+    public void setQhUser(QHUser qhUser) {
+        this.qhUser = qhUser;
+    }
+
     @Override
     public String getPassword() {
         return qhUser.getLoginPassWorld();

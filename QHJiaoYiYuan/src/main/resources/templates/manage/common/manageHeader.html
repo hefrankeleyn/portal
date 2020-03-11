@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark flex-md-nowrap p-0 fixed-top"
+     th:fragment="header-navbar">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/managerController/manageIndex}">后台管理</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!--
+            <span class="sr-only">(current)</span> 是用于给屏读用户使用
+            <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+         -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/managerController/manageIndex}">作品管理</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">栏目管理</a>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-nav px-3" sec:authorize="isAuthenticated()">
+        <li class="nav-item text-success">
+            <!-- 访问认证细节 -->
+<!--                        欢迎登陆：<span sec:authentication="name">User</span>-->
+
+            欢迎登陆：<span><a th:href="@{/managerController/manageIndex}" th:text="${#authentication.name}">User</a></span>
+        </li>
+    </ul>
+    <!--        spring security 在开启 csrf 防护的情况下, /logout 必须以post的方式提交-->
+    <form th:action="@{/logout}" method="post" class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">退出登录</button>
+    </form>
+</nav>
+
+</body>
+
+</html>

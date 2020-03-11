@@ -106,3 +106,112 @@ databaseChangeLog:
             columnName: login_password
             newDataType: varchar(255)
             tableName: qh_users
+  - changeSet:
+      id: create_title_and_channels_talbe
+      author: lifei
+      changes:
+        - createTable:
+            tableName: qh_channels
+            remarks: 栏目表
+            columns:
+              - column:
+                  name: c_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: 栏目的id
+              - column:
+                  name: channel_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                  remarks: 栏目的名称
+              - column:
+                  name: channel_des
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  remarks: 栏目的描述
+              - column:
+                  name: u_id
+                  type: int
+                  constraints:
+                    nullable: true
+                  remarks: 关联栏目创建者的id
+        - createTable:
+            tableName: qh_article
+            remarks: 文章表
+            columns:
+              - column:
+                  name: a_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  remarks: 文章id
+              - column:
+                  name: content_title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                  remarks: 文章的标题
+              - column:
+                  name: content_text
+                  type: mediumtext
+                  constraints:
+                    nullable: true
+                  remarks: 文章内容(带html标签)
+              - column:
+                  name: about
+                  type: text
+                  constraints:
+                    nullable: true
+                  remarks: 文章的摘要
+              - column:
+                  name: content
+                  type: mediumtext
+                  constraints:
+                    nullable: true
+                  remarks: 纯文本内容（不带html标签）
+              - column:
+                  name: author
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+                  remarks: 作者名称
+              - column:
+                  name: cover_url
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+                  remarks: 封面图片的url
+              - column:
+                  name: issue_time
+                  type: date
+                  constraints:
+                    nullable: true
+                  remarks: 文章发行的时间
+              - column:
+                  name: status
+                  type: int
+                  constraints:
+                    nullable: false
+                  remarks: 文章状态（0暂存、1发行、2删除）
+
+  - changeSet:
+      id: add_column_to_article
+      author: lifei
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: c_id
+                  type: int
+                  constraints:
+                    nullable: true
+                  remarks: 关联的栏目id
+            tableName: qh_article

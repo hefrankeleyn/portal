@@ -21,10 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
 
+    // remember me 的时效
+    private static final int TOKEN_VALIDITY_SECONDS = 7 * 24 * 60 * 60;
+
     @Autowired
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
+
 
     /**
      * 配置对请求的权限，配置这个之后
@@ -41,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 要求所有进入应用的http请求都要进行认证
                 // 如果这里使用 anyRequest()  将导致 {@code localhost将您重定向的次数过多} 的异常
                 .antMatchers("/","/home").authenticated()
+                .antMatchers("/managerController/*").authenticated()
                 .and()
                 // 配置支持基于表单的登陆以及HTTPBasic方式的认证
                 // 调用该方法能将默认的登陆页找回来
@@ -48,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 启用自定义的登陆页
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
-                .and().httpBasic();
+                .and().httpBasic()
+                .and().rememberMe().tokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
+                .and().logout().logoutSuccessUrl("/managerController/manageIndex");
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.hef.qhjiaoyiyuan.dao;
 
 import com.hef.qhjiaoyiyuan.bean.QHUser;
-import org.junit.Assert;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

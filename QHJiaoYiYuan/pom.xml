@@ -20,6 +20,7 @@
 		<mysql.version>8.0.16</mysql.version>
 		<commons-dbcp2.version>2.1.1</commons-dbcp2.version>
 		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+		<thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
 	</properties>
 
 	<dependencies>
@@ -30,6 +31,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!--        thymeleaf 使用Spring Security进行页面保护，需要配置的方言-->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+			<version>${thymeleaf-extras-springsecurity5.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

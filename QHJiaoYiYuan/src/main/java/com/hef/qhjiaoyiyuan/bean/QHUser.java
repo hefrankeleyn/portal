@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 2020/3/1
  * @Author lifei
  */
-public class QHUser {
+public class QHUser implements Cloneable{
 
     /** 主键，自增 */
     private Integer uId;
@@ -137,6 +137,15 @@ public class QHUser {
         this.roles.clear();
         for (QHRole role : roles) {
             this.roles.add(role.clone());
+        }
+    }
+
+    @Override
+    public QHUser clone()  {
+        try {
+            return (QHUser) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(e);
         }
     }
 
