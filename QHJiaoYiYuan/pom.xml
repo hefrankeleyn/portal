@@ -21,6 +21,7 @@
 		<commons-dbcp2.version>2.1.1</commons-dbcp2.version>
 		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
 		<thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
+		<thymeleaf-extras-java8time.version>3.0.4.RELEASE</thymeleaf-extras-java8time.version>
 	</properties>
 
 	<dependencies>
@@ -38,6 +39,12 @@
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 			<version>${thymeleaf-extras-springsecurity5.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+			<version>${thymeleaf-extras-java8time.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

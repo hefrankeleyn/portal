@@ -38,7 +38,7 @@
         </select>
         <input type="text" class="form-control w-25" id="articleTitle" placeholder="标题名称" name="articleTitle">
         <button class="btn btn-primary ml-3">查询</button>
-        <button class="btn btn-primary ml-3">添加作品</button>
+        <a class="btn btn-primary ml-3" th:href="@{/managerController/addArticlePage}">添加作品</a>
     </div>
 
     <table style="table-layout:fixed" class="table table-bordered table-hover table-striped table-condensed">
@@ -66,7 +66,7 @@
                     </button>
                 </span>
             </td>
-            <td scope="col" class="issueTime" th:text="${#dates.format(article.issueTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td scope="col" class="issueTime" th:text="${#temporals.format(article.issueTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td scope="col" class="articleStatus" th:switch="${article.status}">
                 <span th:case="0">暂存</span>
                 <span th:case="1">发布</span>

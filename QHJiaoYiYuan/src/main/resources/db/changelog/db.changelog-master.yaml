@@ -215,3 +215,15 @@ databaseChangeLog:
                     nullable: true
                   remarks: 关联的栏目id
             tableName: qh_article
+  - changeSet:
+      id: update_time_type
+      author: lifei
+      changes:
+        - modifyDataType:
+            columnName: create_date
+            newDataType: datetime
+            tableName: qh_users
+        - modifyDataType:
+            columnName: issue_time
+            newDataType: datetime
+            tableName: qh_article

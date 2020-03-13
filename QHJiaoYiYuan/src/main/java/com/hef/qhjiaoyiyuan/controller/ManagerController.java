@@ -44,4 +44,12 @@ public class ManagerController {
         model.addAttribute("articleList", articleList);
         return "manage/manageIndex";
     }
+
+    @RequestMapping(value = "/addArticlePage", method = RequestMethod.GET)
+    public String addArticlePage(Model model){
+        // 查询所有的栏目
+        List<Channel> channelList = channelService.findAllChannel();
+        model.addAttribute("channelList",channelList);
+        return "manage/addArticle";
+    }
 }
