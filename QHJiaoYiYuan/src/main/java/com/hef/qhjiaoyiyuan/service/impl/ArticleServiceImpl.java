@@ -52,4 +52,9 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleCondition==null) return new ArrayList<>();
         return articleDao.findArticlesByConditions(articleCondition);
     }
+
+    @Override
+    public List<Article> findAllArticle() {
+        return articleDao.findAllArticle();
+    }
 }

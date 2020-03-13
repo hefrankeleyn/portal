@@ -35,4 +35,6 @@ public interface ArticleService {
      * @return
      */
     List<Article> findArticlesByConditions(ArticleCondition articleCondition);
+
+    List<Article> findAllArticle();
 }

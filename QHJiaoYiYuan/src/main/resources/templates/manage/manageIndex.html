@@ -7,21 +7,82 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/common/jquery.min.js}"></script>
+    <script th:src="@{/js/common/popper.min.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+
+<!--    自定义js-->
+    <script th:src="@{/js/manager/manageIndex.js}"></script>
+
 </head>
 <body>
 <nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
 <div class="container">
-    <!-- main content -->
-    <main role="main">
-        <div class="jumbotron">
-            <h1>欢迎来到 后台管理</h1>
-        </div>
-    </main>
+    <h2>作品列表</h2>
+    <p>对所有暂存、已发布、过期的文章进行管理。</p>
+    <div class="mb-2 ml-1 row">
+        <select multiple class="selectpicker mr-1" id="channelIds" name="cids">
+            <option selected>全部栏目</option>
+            <option th:each="channel: ${channelList}" th:value="${channel.cid}" th:text="${channel.channelName}">期货入门
+            </option>
+        </select>
+        <select class="selectpicker mr-1" multiple>
+            <option selected>全部状态</option>
+            <option>暂存</option>
+            <option>发布</option>
+            <option>过期</option>
+        </select>
+        <input type="text" class="form-control w-25" id="articleTitle" placeholder="标题名称" name="articleTitle">
+        <button class="btn btn-primary ml-3">查询</button>
+        <button class="btn btn-primary ml-3">添加作品</button>
+    </div>
+
+    <table style="table-layout:fixed" class="table table-bordered table-hover table-striped table-condensed">
+        <thead>
+        <tr>
+            <th scope="col" style="width: 8%;">序号</th>
+            <th scope="col" style="width: 17%;">标题</th>
+            <tH scope="col" style="width: 12%;">作者</tH>
+            <th scope="col">简介</th>
+            <th scope="col" style="width: 11%;">修改时间</th>
+            <th scope="col" style="width: 8%;">状态</th>
+            <th scope="col" style="width: 18%;">操作</th>
+        </tr>
+        </thead>
+        <tbody th:unless="${#lists.isEmpty(articleList)}">
+        <tr th:each="article,rowStatus: ${articleList}">
+            <td scope="col" class="aid" th:id="${article.aid}" th:text="${rowStatus.count}">1</td>
+            <td scope="col" class="contentTitle" th:text="${article.contentTitle}"></td>
+            <td scope="col" class="author" th:text="${article.author}"></td>
+            <td class="about">
+                <span th:text="${article.about !=null && #strings.length(article.about)>10}?${#strings.substring(article.about, 0, 10)}:${article.about}"></span>
+                <span th:if="${article.about!=null && #strings.length(article.about)>10}">
+                    <button data-toggle="popover" title="概述" class="btn btn-link py-0 px-0" th:data-content="${article.about}" data-html="true">
+                        查看全文
+                    </button>
+                </span>
+            </td>
+            <td scope="col" class="issueTime" th:text="${#dates.format(article.issueTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td scope="col" class="articleStatus" th:switch="${article.status}">
+                <span th:case="0">暂存</span>
+                <span th:case="1">发布</span>
+                <span th:case="2">删除</span>
+            </td>
+            <td scope="col" class="articleOperation">
+                <div>
+                    <a th:if="${article.status==0}" href="#" class="btn btn-success btn-sm active" role="button" aria-pressed="true">发布</a>
+                    <a th:if="${article.status==1}" href="#" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">撤销</a>
+                    <a href="#" class="btn btn-info btn-sm active" role="button" aria-pressed="true">更新</a>
+                    <a href="#" class="btn btn-warning btn-sm active" role="button" aria-pressed="true">删除</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

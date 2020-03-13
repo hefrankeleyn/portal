@@ -33,7 +33,7 @@ public interface ArticleDao {
      * @return
      */
     @Select(value = {"SELECT `a_id`, `content_title`, `content_text`, `about`, `content`, " +
-            " `author`, `cover_url`, `issue_time`, `status`, `c_id` FROM `qh_article` "})
+            " `author`, `cover_url`, `issue_time`, `status`, `c_id` FROM `qh_article` where `status`!=2 "})
     @Results(value = {@Result(column = "a_id", property = "aid", jdbcType = JdbcType.INTEGER),
             @Result(column = "content_title", property = "contentTitle", jdbcType = JdbcType.VARCHAR),
             @Result(column = "content_text", property = "contentText", jdbcType = JdbcType.VARCHAR),
@@ -81,7 +81,8 @@ public interface ArticleDao {
             " <where> " +
             " <if test='cId!=null'>and t2.c_id=#{cId}</if> " +
             " <if test='channelName!=null'>and t2.channel_name=#{channelName}</if>" +
-            " </where> "})
+            " </where> " +
+            " </script> "})
     @Results(value = {@Result(column = "a_id", property = "aid", jdbcType = JdbcType.INTEGER),
             @Result(column = "content_title", property = "contentTitle", jdbcType = JdbcType.VARCHAR),
             @Result(column = "content_text", property = "contentText", jdbcType = JdbcType.VARCHAR),
@@ -138,7 +139,8 @@ public interface ArticleDao {
             " <if test='author!=null'>and t1.author=#{author}</if>" +
             " <if test='status!=null'>and t1.status=#{status}</if>" +
             " <if test='channelName!=null'>and t2.channel_name=#{channelName}</if>" +
-            " </where> "})
+            " </where> " +
+            " </script> "})
     @Results(value = {@Result(column = "a_id", property = "aid", jdbcType = JdbcType.INTEGER),
             @Result(column = "content_title", property = "contentTitle", jdbcType = JdbcType.VARCHAR),
             @Result(column = "content_text", property = "contentText", jdbcType = JdbcType.VARCHAR),
