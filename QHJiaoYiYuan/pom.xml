@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hef</groupId>
-	<artifactId>qhjiaoyiyuan</artifactId>
+	<artifactId>QHJiaoYiYuan</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>qhjiaoyiyuan</name>
+	<name>QHJiaoYiYuan</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -22,6 +22,7 @@
 		<mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
 		<thymeleaf-extras-springsecurity5.version>3.0.4.RELEASE</thymeleaf-extras-springsecurity5.version>
 		<thymeleaf-extras-java8time.version>3.0.4.RELEASE</thymeleaf-extras-java8time.version>
+		<mybatis-typehandlers-jsr310.version>1.0.2</mybatis-typehandlers-jsr310.version>
 	</properties>
 
 	<dependencies>
@@ -48,6 +49,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>org.springframework.boot</artifactId>
+					<groupId>spring-boot-starter-tomcat</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- 数据库连接池 -->
 		<dependency>
@@ -73,7 +80,12 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis-spring-boot-starter.version}</version>
 		</dependency>
-
+		<!-- 对新时间格式对支持 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-typehandlers-jsr310</artifactId>
+			<version>${mybatis-typehandlers-jsr310.version}</version>
+		</dependency>
 		<!-- 数据库迁移工具： liquibase
 		    默认情况下，会在/db/changelog目录下查找 db.changelog-master.yaml 文件
 		-->

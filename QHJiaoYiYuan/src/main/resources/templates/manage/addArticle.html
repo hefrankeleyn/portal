@@ -27,32 +27,53 @@
 <nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
 <div class="container">
     <h1>添加作品</h1>
-    <form>
+    <form class="was-validated" th:action="@{/articleController/addArticleSubmit}" method="post">
         <div class="row">
             <div class="form-group col">
+                <label for="cid">栏目:</label>
+                <select class="custom-select" id="cid" name="channel.cid" required>
+                    <option th:each="channel: ${channelList}" th:value="${channel.cid}" th:text="${channel.channelName}">期货入门
+                    </option>
+                </select>
+                <div class="invalid-feedback">请选择栏目！</div>
+            </div>
+            <div class="form-group col">
                 <label for="contentTitle">作品名称：</label>
-                <input type="text" class="form-control" placeholder="作品名称" id="contentTitle">
+                <input type="text" class="form-control" placeholder="作品名称" name="contentTitle" id="contentTitle" required>
+                <div class="invalid-feedback">请输入作品名称！</div>
             </div>
             <div class="form-group col">
                 <label for="author">作者：</label>
-                <input type="text" class="form-control" placeholder="作者" id="author">
+                <input type="text" class="form-control" placeholder="作者" name="author" id="author" required>
+                <div class="invalid-feedback">请填写作者！</div>
             </div>
         </div>
         <div class="form-group">
+            <label for="coverUrl">封面图片的链接: </label>
+            <input type="text" class="form-control" placeholder="封面图片的链接" name="coverUrl" id="coverUrl">
+        </div>
+        <div class="form-group">
             <label for="about">摘要：</label>
-            <textarea class="form-control" rows="3" id="about"></textarea>
+            <textarea class="form-control" rows="3" id="about" name="about" required></textarea>
+            <div class="invalid-feedback">不能为空！</div>
         </div>
         <div class="form-group">
             <label for="contentText">正文：</label>
-            <textarea class="form-control" rows="17" id="contentText"></textarea>
+            <textarea class="form-control" rows="17" name="contentText" id="contentText" required></textarea>
+            <div class="invalid-feedback">不能为空！</div>
         </div>
-
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="statusSave" name="status" value="0" class="custom-control-input" required checked>
+            <label class="custom-control-label" for="statusSave">暂存</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="statusPush" name="status" value="1" class="custom-control-input" required>
+            <label class="custom-control-label" for="statusPush">立刻发布</label>
+        </div>
         <!-- <center><button type="submit" id="submitButton" class="btn btn-primary">提交</button></center> -->
         <div id="submitButton">
-            <button type="submit" id="submitSaveButton" class="btn btn-primary mr-2">暂存</button>
-            <button type="submit" id="submitPushButton" class="btn btn-success">发布</button>
+            <button type="submit" id="submitPushButton" class="btn btn-success btn-lg">提交</button>
         </div>
-
     </form>
 </div>
 </body>

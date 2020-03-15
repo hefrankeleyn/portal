@@ -1,5 +1,7 @@
 package com.hef.qhjiaoyiyuan.service;
 
+import com.hef.qhjiaoyiyuan.base.PageResult;
+import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.exchange.ArticleCondition;
 
@@ -37,4 +39,11 @@ public interface ArticleService {
     List<Article> findArticlesByConditions(ArticleCondition articleCondition);
 
     List<Article> findAllArticle();
+
+    /**
+     * 分页查询 文章内容
+     * @param articleQuery
+     * @return
+     */
+    PageResult<Article> findPageArticleList(ArticleQuery articleQuery);
 }

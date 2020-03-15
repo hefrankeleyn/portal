@@ -15,7 +15,12 @@
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
 
-<!--    自定义js-->
+    <!--    自定义的js 插件-->
+    <script th:src="@{/js/common/url-plugins.js}"></script>
+    <script th:src="@{/js/common/date-plugin.js}"></script>
+    <!--    自定义的css-->
+    <link rel="stylesheet" th:href="@{/css/manage/manageIndex.css}">
+    <!--    自定义js-->
     <script th:src="@{/js/manager/manageIndex.js}"></script>
 
 </head>
@@ -30,18 +35,19 @@
             <option th:each="channel: ${channelList}" th:value="${channel.cid}" th:text="${channel.channelName}">期货入门
             </option>
         </select>
-        <select class="selectpicker mr-1" multiple>
+        <select multiple class="selectpicker mr-1" name="status">
             <option selected>全部状态</option>
-            <option>暂存</option>
-            <option>发布</option>
-            <option>过期</option>
+            <option value="0">暂存</option>
+            <option value="1">发布</option>
         </select>
         <input type="text" class="form-control w-25" id="articleTitle" placeholder="标题名称" name="articleTitle">
         <button class="btn btn-primary ml-3">查询</button>
         <a class="btn btn-primary ml-3" th:href="@{/managerController/addArticlePage}">添加作品</a>
     </div>
-
-    <table style="table-layout:fixed" class="table table-bordered table-hover table-striped table-condensed">
+</div>
+<div class="container" th:object="${pageResult}">
+    <table style="table-layout:fixed" class="table table-bordered table-hover table-striped table-condensed"
+           th:unless="${#lists.isEmpty(pageResult.pageObjList)}">
         <thead>
         <tr>
             <th scope="col" style="width: 8%;">序号</th>
@@ -53,19 +59,22 @@
             <th scope="col" style="width: 18%;">操作</th>
         </tr>
         </thead>
-        <tbody th:unless="${#lists.isEmpty(articleList)}">
-        <tr th:each="article,rowStatus: ${articleList}">
+        <tbody>
+        <tr th:each="article,rowStatus: ${pageResult.pageObjList}">
             <td scope="col" class="aid" th:id="${article.aid}" th:text="${rowStatus.count}">1</td>
-            <td scope="col" class="contentTitle" th:text="${article.contentTitle}"></td>
+            <td scope="col" class="contentTitle">
+                <a th:href="@{|/articleController/showArticleContent/${article.aid}|}" th:text="${article.contentTitle}"></a>
+            </td>
             <td scope="col" class="author" th:text="${article.author}"></td>
             <td class="about">
                 <span th:text="${article.about !=null && #strings.length(article.about)>10}?${#strings.substring(article.about, 0, 10)}:${article.about}"></span>
                 <span th:if="${article.about!=null && #strings.length(article.about)>10}">
                     <button data-toggle="popover" title="概述" class="btn btn-link py-0 px-0" th:data-content="${article.about}" data-html="true">
-                        查看全文
+                        查看全部
                     </button>
                 </span>
             </td>
+<!--            <td scope="col" class="issueTime" th:text="${#dates.format(article.issueTime,'yyyy-MM-dd HH:mm:ss')}"></td>-->
             <td scope="col" class="issueTime" th:text="${#temporals.format(article.issueTime,'yyyy-MM-dd HH:mm:ss')}"></td>
             <td scope="col" class="articleStatus" th:switch="${article.status}">
                 <span th:case="0">暂存</span>
@@ -83,6 +92,21 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${#lists.isEmpty(pageResult.pageObjList)}">
+        <div class="jumbotron">
+            <h1 class="display-4">列表为空</h1>
+            <p class="lead">没有查到作品</p>
+        </div>
+    </div>
+    <nav>
+        <ul hidden id="pageValue">
+            <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}">
+            <input type="hidden" name="pageSize" th:value="*{pageSize}">
+            <input type="hidden" name="currentPageNum" th:value="*{currentPageNum}">
+            <input type="hidden" name="totalPageNum" th:value="*{totalPageNum}">
+            <input type="hidden" name="totalItemNum" th:value="*{totalItemNum}">
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

@@ -1,0 +1,18 @@
+/*
+让操作行居中
+ */
+.container table .articleStatus,
+.container table tr th{
+    text-align: center;
+}
+
+.next {
+    margin-right: 300px;
+}
+.previous{
+    margin-left: 200px
+}
+
+.pagination li span:hover{
+    cursor: pointer;
+}

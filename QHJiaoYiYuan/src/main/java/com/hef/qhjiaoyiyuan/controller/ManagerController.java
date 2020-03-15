@@ -1,5 +1,7 @@
 package com.hef.qhjiaoyiyuan.controller;
 
+import com.hef.qhjiaoyiyuan.base.PageResult;
+import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.service.ArticleService;
@@ -35,13 +37,13 @@ public class ManagerController {
     }
 
     @RequestMapping(value = "/manageIndex", method = RequestMethod.GET)
-    public String manageIndex(Model model){
+    public String manageIndex(Model model, ArticleQuery articleQuery){
         // 查询所有的栏目
         List<Channel> channelList = channelService.findAllChannel();
         // 查询所有的文章
-        List<Article> articleList = articleService.findAllArticle();
+        PageResult<Article> pageResult = articleService.findPageArticleList(articleQuery);
         model.addAttribute("channelList", channelList);
-        model.addAttribute("articleList", articleList);
+        model.addAttribute("pageResult", pageResult);
         return "manage/manageIndex";
     }
 

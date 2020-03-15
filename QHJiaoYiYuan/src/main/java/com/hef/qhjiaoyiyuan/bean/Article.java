@@ -201,6 +201,8 @@ public class Article {
         this.channel = channel;
     }
 
+
+
     @Override
     public String toString() {
         return "Article{" +
