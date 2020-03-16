@@ -15,6 +15,58 @@ $(document).ready(function(){
             // 初始化分页html
             initPageHtml();
         }
+
+        // 对查询按钮设置点击动作
+        $("#conditionSearch").unbind("click",findPageResultByCondition);
+        $("#conditionSearch").bind("click", findPageResultByCondition);
+
+    }
+
+
+    /**
+     * 根据条件查询
+     */
+    function findPageResultByCondition() {
+        // ajax 参数
+        let data = JSON.stringify(searchData());
+        // 获取 token
+        let token = $(".container nav #pageValue input[name='_csrf']").val();
+        let headers = {"X-CSRF-TOKEN": token};
+        // 获取项目路径
+        let url = $.projectRootUrl() + "/articleController/findPageArticleResult";
+        ajaxFindPage(headers, data, url);
+    }
+
+    /**
+     * 封装请求参数
+     * @returns {{articleTitle: (string|*|jQuery), cids: *[], status: *[]}}
+     */
+    function searchData() {
+        // 获取被选中对栏目id
+        let cidOptions = $(".conditionSearch #channelIds option:selected");
+        let cids = fetchOptionValue(cidOptions);
+        // 获取被选中对状态
+        let statusOptions = $(".conditionSearch #status option:selected");
+        let status = fetchOptionValue(statusOptions);
+        // 获取题目
+        let articleTitle = $(".conditionSearch #articleTitle").val();
+        let data = {"cids": cids, "status": status, "articleTitle": articleTitle};
+        return data;
+    }
+
+    /**
+     * 获取option中的值
+     * @param optionArray
+     * @returns {[]}
+     */
+    function fetchOptionValue(optionArray) {
+        let vals = [];
+        for (let i=0;i<optionArray.length;i++){
+            if ($(optionArray[i]).val()){
+                vals.push($(optionArray[i]).val());
+            }
+        }
+        return vals;
     }
 
     /**
@@ -155,7 +207,11 @@ $(document).ready(function(){
             selectChanged=true;
         }
         // ajax 参数
-        let data = JSON.stringify({"currentPage": currentPageNum, "pageSize": pageSize});
+        let searchParam = searchData();
+        searchParam["currentPage"]=currentPageNum;
+        searchParam["pageSize"]=pageSize;
+
+        let data = JSON.stringify(searchParam);
         // 获取 token
         let token = $(".container nav #pageValue input[name='_csrf']").val();
         let headers = {"X-CSRF-TOKEN": token};

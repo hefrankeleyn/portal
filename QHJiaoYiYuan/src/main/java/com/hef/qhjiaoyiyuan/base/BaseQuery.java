@@ -13,7 +13,7 @@ public class BaseQuery {
     /**
      * 一页的条数， 默认为10条
      */
-    protected Integer pageSize = 2;
+    protected Integer pageSize = 10;
 
     public Integer getCurrentPage() {
         return currentPage;

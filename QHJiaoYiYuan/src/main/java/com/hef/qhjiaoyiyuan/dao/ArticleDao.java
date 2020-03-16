@@ -163,7 +163,7 @@ public interface ArticleDao {
     @Select(value = {" <script> " +
             " select count(*) from qh_article t1 inner join qh_channels t2 on t1.c_id=t2.c_id " +
             " <where> " +
-            " <if test=\"articleTitle!=null and articleTitle!=''\">and t1.content_title like concat('%','#{articleTitle}','%')</if> " +
+            " <if test=\"articleTitle!=null and articleTitle!=''\">and t1.content_title like concat('%',#{articleTitle},'%')</if> " +
             " <if test='status!=null and status.length>0'> " +
             " and t1.status in " +
             " <foreach item='item' collection='status' open='(' separator=',' close=')'> " +
@@ -193,7 +193,7 @@ public interface ArticleDao {
             " FROM qh_article t1 inner join qh_channels t2 on t1.c_id=t2.c_id " +
             " <where> " +
             " <if test=\"articleQuery.articleTitle!=null and articleQuery.articleTitle!=''\">" +
-            " and t1.content_title like concat('%','#{articleQuery.articleTitle}','%')" +
+            " and t1.content_title like concat('%',#{articleQuery.articleTitle},'%')" +
             " </if> " +
             " <if test='articleQuery.status!=null and articleQuery.status.length>0'> " +
             " and t1.status in " +
@@ -208,6 +208,7 @@ public interface ArticleDao {
             " </foreach> " +
             " </if> " +
             " </where> " +
+            " order by  t1.`a_id` " +
             " limit #{beginRowNum},#{pageSize} " +
             " </script> "})
     @Results(value = {@Result(column = "a_id", property = "aid", jdbcType = JdbcType.INTEGER),

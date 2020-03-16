@@ -1,6 +1,5 @@
 (function($){
     $.date = function(dateObject) {
-        console.log(dateObject);
         let d = new Date(dateObject);
         let day = d.getDate();
         let month = d.getMonth() + 1;
@@ -26,7 +25,6 @@
         }
         // let date = year + "-" + month + "-" + day;
         let date = year + "-" + month + "-" + day +" " + hour+":" + minute+":" +second;
-        console.log("hour: " + hour);
         return date;
     };
 })($);

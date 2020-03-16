@@ -26,22 +26,22 @@
 </head>
 <body>
 <nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
-<div class="container">
+<div class="container conditionSearch">
     <h2>作品列表</h2>
     <p>对所有暂存、已发布、过期的文章进行管理。</p>
     <div class="mb-2 ml-1 row">
         <select multiple class="selectpicker mr-1" id="channelIds" name="cids">
-            <option selected>全部栏目</option>
+            <option selected value="">全部栏目</option>
             <option th:each="channel: ${channelList}" th:value="${channel.cid}" th:text="${channel.channelName}">期货入门
             </option>
         </select>
-        <select multiple class="selectpicker mr-1" name="status">
-            <option selected>全部状态</option>
+        <select multiple class="selectpicker mr-1" id="status" name="status">
+            <option selected value="">全部状态</option>
             <option value="0">暂存</option>
             <option value="1">发布</option>
         </select>
         <input type="text" class="form-control w-25" id="articleTitle" placeholder="标题名称" name="articleTitle">
-        <button class="btn btn-primary ml-3">查询</button>
+        <button class="btn btn-primary ml-3" id="conditionSearch">查询</button>
         <a class="btn btn-primary ml-3" th:href="@{/managerController/addArticlePage}">添加作品</a>
     </div>
 </div>
