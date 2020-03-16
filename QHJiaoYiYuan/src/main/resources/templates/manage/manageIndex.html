@@ -89,7 +89,7 @@
                     <button th:if="${article.status==1}" name="cancelArticle" id="0" class="btn btn-danger btn-sm active"
                             data-toggle="modal"
                             role="button" aria-pressed="true">撤销</button>
-                    <a class="btn btn-info btn-sm active" th:href="@{|/managerController/updateArticle/${article.aid}|}" name="updateArticle" role="button" aria-pressed="true">更新</a>
+                    <a class="btn btn-info btn-sm active" th:href="@{|/managerController/updateArticleShow/${article.aid}|}" name="updateArticle" role="button" aria-pressed="true">更新</a>
                     <button class="btn btn-warning btn-sm active" name="deleteArticle" id="2"
                             data-toggle="modal"
                             role="button" aria-pressed="true">删除</button>

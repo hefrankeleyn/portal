@@ -1,10 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <meta charset="UTF-8">
-    <title>更新作品</title>
+    <title th:text="${article.contentText}">更新作品</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/js/common/jquery.min.js}"></script>
+    <script th:src="@{/js/common/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+    <!--    将按钮居中-->
+    <style>
+        #submitButton {
+            display: table;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
-<h1>更新作品</h1>
+<nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
+<div class="container" th:object="${article}">
+    <h1 th:text="*{contentTitle}">添加作品</h1>
+    <form class="was-validated" th:action="@{/managerController/updateArticle}" method="post">
+        <input type="hidden" name="aid" th:value="*{aid}">
+        <div class="row">
+            <div class="form-group col">
+                <label for="cid">栏目:</label>
+                <select class="custom-select" id="cid" name="channel.cid" required>
+                    <option th:selected="${article.channel.cid eq channel.cid}" th:each="channel: ${channelList}"
+                            th:value="${channel.cid}" th:text="${channel.channelName}">期货入门</option>
+                </select>
+                <div class="invalid-feedback">请选择栏目！</div>
+            </div>
+            <div class="form-group col">
+                <label for="contentTitle">作品名称：</label>
+                <input type="text" class="form-control" placeholder="作品名称" name="contentTitle" th:value="*{contentTitle}" id="contentTitle" required>
+                <div class="invalid-feedback">请输入作品名称！</div>
+            </div>
+            <div class="form-group col">
+                <label for="author">作者：</label>
+                <input type="text" class="form-control" placeholder="作者" name="author" th:value="*{author}" id="author" required>
+                <div class="invalid-feedback">请填写作者！</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="coverUrl">封面图片的链接: </label>
+            <input type="text" class="form-control" placeholder="封面图片的链接" name="coverUrl" th:value="*{coverUrl}" id="coverUrl">
+        </div>
+        <div class="form-group">
+            <label for="about">摘要：</label>
+            <textarea class="form-control" rows="3" id="about" name="about" th:text="*{about}" required></textarea>
+            <div class="invalid-feedback">不能为空！</div>
+        </div>
+        <div class="form-group">
+            <label for="contentText">正文：</label>
+            <textarea class="form-control" rows="17" name="contentText" th:text="*{contentText}" id="contentText" required></textarea>
+            <div class="invalid-feedback">不能为空！</div>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="statusSave" name="status" value="0" class="custom-control-input" th:checked="${article.status==0}" required>
+            <label class="custom-control-label" for="statusSave">暂存</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="statusPush" name="status" value="1" class="custom-control-input" th:checked="${article.status==1}" required>
+            <label class="custom-control-label" for="statusPush">立刻发布</label>
+        </div>
+        <!-- <center><button type="submit" id="submitButton" class="btn btn-primary">提交</button></center> -->
+        <div id="submitButton">
+            <button type="submit" id="submitPushButton" class="btn btn-success btn-lg">提交</button>
+        </div>
+    </form>
 </body>
 </html>

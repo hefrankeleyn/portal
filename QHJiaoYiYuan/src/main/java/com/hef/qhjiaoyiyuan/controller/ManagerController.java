@@ -62,11 +62,29 @@ public class ManagerController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/updateArticle/{aid}", method = RequestMethod.GET)
-    public String updateArticle(@PathVariable("aid") int aid, Model model){
+    @RequestMapping(value = "/updateArticleShow/{aid}", method = RequestMethod.GET)
+    public String updateArticleShow(@PathVariable("aid") int aid, Model model){
         Article article = articleService.findArticleByAId(aid);
+        List<Channel> channelList = channelService.findAllChannel();
+        model.addAttribute("channelList",channelList);
         model.addAttribute("article", article);
         return "manage/updateArticle";
+    }
+
+    /**
+     * 更新作品
+     * @param article
+     * @return
+     */
+    @RequestMapping(value = "/updateArticle", method = RequestMethod.POST)
+    public String updateArticle(Article article){
+        articleService.updateArticle(article);
+        return "redirect:/managerController/updateSuccessShow";
+    }
+
+    @RequestMapping(value = "/updateSuccessShow", method = RequestMethod.GET)
+    public String updateSuccessShow(){
+        return "manage/updateSuccess";
     }
 
     /**

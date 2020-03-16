@@ -413,7 +413,7 @@ $(document).ready(function(){
     function reloadTableTrs(resultList) {
         // 查看详情的url
         let rootDescUrl = $.projectRootUrl() + "/articleController/showArticleContent/";
-        let rootUpdateArticle = $.projectRootUrl() + "/managerController/updateArticle/";
+        let rootUpdateArticle = $.projectRootUrl() + "/managerController/updateArticleShow/";
         let tbody = $(".container table tbody");
         // 删除所有的tr
         tbody.children("tr").remove();

@@ -47,6 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article==null || article.getAid()==null) return;
         Article oldArticle = articleDao.findArticleByAid(article.getAid());
         BeanUtils.copyProperties(article, oldArticle,"aId");
+        oldArticle.setIssueTime(Instant.now());
         articleDao.updateArticle(oldArticle);
     }
 
