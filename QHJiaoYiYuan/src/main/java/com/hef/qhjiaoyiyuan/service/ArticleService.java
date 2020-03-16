@@ -4,6 +4,8 @@ import com.hef.qhjiaoyiyuan.base.PageResult;
 import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.exchange.ArticleCondition;
+import com.hef.qhjiaoyiyuan.bean.exchange.OptionArticleParam;
+import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
 
 import java.util.List;
 
@@ -46,4 +48,11 @@ public interface ArticleService {
      * @return
      */
     PageResult<Article> findPageArticleList(ArticleQuery articleQuery);
+
+    /**
+     * 修改或删除作品
+     * @param optionArticleParam
+     * @return
+     */
+    ResponseResult<String> updateOrDeleteArticleByStatus(OptionArticleParam optionArticleParam);
 }

@@ -111,7 +111,7 @@ public interface ArticleDao {
             " `author` = #{author}, " +
             " `cover_url` = #{coverUrl}, " +
             " `issue_time` = #{issueTime}, " +
-            " `status` = #{status}, " +
+            " `status` = #{status} " +
             " WHERE `a_id` = #{aid} "})
     void updateArticle(Article article);
 
@@ -121,8 +121,8 @@ public interface ArticleDao {
      * @param aid
      */
     @Delete(value = {"DELETE FROM `qh_article` " +
-            "WHERE a_id=#{aid)} "})
-    void deleteArticleByAid(@Param("aid") Integer aid);
+            " WHERE a_id=#{aid)} "})
+    void deleteArticleByAid(Integer aid);
 
 
     /**

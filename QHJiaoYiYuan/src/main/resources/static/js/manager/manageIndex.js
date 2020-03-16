@@ -20,8 +20,121 @@ $(document).ready(function(){
         $("#conditionSearch").unbind("click",findPageResultByCondition);
         $("#conditionSearch").bind("click", findPageResultByCondition);
 
+        // 为所有的操作按钮添加事件
+        addClientEventForOptionButtons();
     }
 
+    function addClientEventForOptionButtons() {
+        let buttonElements = $(".container table tbody .articleOperation button");
+        for(let buttonIndex=0;buttonIndex<buttonElements.length;buttonIndex++){
+            addClickUpdateArticleEvent(buttonElements[buttonIndex]);
+        }
+    }
+
+    /**
+     * 添加点击事件
+     * @param buttonElement
+     */
+    function addClickUpdateArticleEvent(buttonElement) {
+        $(buttonElement).unbind("click",ajaxUpdateArticleByAid);
+        $(buttonElement).bind("click",ajaxUpdateArticleByAid);
+    }
+
+    /**
+     * 更新作品的状态
+     */
+    function ajaxUpdateArticleByAid() {
+        // 获取状态
+        let status = $(this).attr("id");
+        let name = $(this).attr("name");
+        // 获取aid
+        let aid = $(this).parent().parent().parent("tr").children("td:first-child").attr("id");
+        let data = {"status": status, "aid": aid};
+        let dialogTitle="";
+        let dialogBody = "";
+        if (name=="pushArticle"){
+            dialogTitle="发布";
+            dialogBody="作品即将被公开，是否继续？"
+            updateDialogAndShowDialog(dialogTitle,dialogBody,data);
+        }else if(name=="cancelArticle"){
+            dialogTitle="撤销";
+            dialogBody="即将撤销发布，是否继续？";
+            updateDialogAndShowDialog(dialogTitle,dialogBody,data);
+        }else if (name=="deleteArticle"){
+            dialogTitle="删除";
+            dialogBody="该作品将永久被删除，是否继续？";
+            updateDialogAndShowDialog(dialogTitle,dialogBody,data);
+        }
+
+
+    }
+
+    /**
+     * 展示dialog， 并将对话框显示出来
+     * @param dialogTitle
+     * @param dialogBody
+     */
+    function updateDialogAndShowDialog(dialogTitle,dialogBody,data) {
+        // 设置标题
+        $("#optionButtonModel #optionButtonModelLabel").text(dialogTitle);
+        $("#optionButtonModel .modal-body").text(dialogBody);
+        deleteModelHideInputAndAddNew(data);
+        // 为确认按钮添加点击时间
+        $("#optionButtonModel .modal-footer #optionOk").unbind("click", ajaxRunOptionFunction);
+        $("#optionButtonModel .modal-footer #optionOk").bind("click", ajaxRunOptionFunction);
+        $("#optionButtonModel").modal("show");
+    }
+
+    /**
+     * 删除隐藏的input，并添加新的
+     */
+    function deleteModelHideInputAndAddNew(data) {
+        $("#optionButtonModel .modal-footer #optionOk").siblings("input").remove();
+        // 添加隐藏值
+        let aidInput = $("<input type='hidden' name='aid'>");
+        aidInput.val(data["aid"]);
+        let statusInput = $("<input type='hidden' name='status'>");
+        statusInput.val(data["status"]);
+        $("#optionButtonModel .modal-footer #optionOk").parent().append(aidInput);
+        $("#optionButtonModel .modal-footer #optionOk").parent().append(statusInput);
+    }
+
+    /**
+     * 执行ajax操作
+     * @param data
+     */
+    function ajaxRunOptionFunction() {
+        // 将按钮不可用
+        $("#optionButtonModel .modal-footer button").attr("disabled","true")
+        // 获取隐藏值
+        let aid = $(this).siblings("input[name='aid']").val();
+        let status = $(this).siblings("input[name='status']").val();
+        // ajax 参数
+        let data = JSON.stringify({"aid":aid, "status": status});
+        // 获取 token
+        let token = $(".container nav #pageValue input[name='_csrf']").val();
+        let headers = {"X-CSRF-TOKEN": token};
+        let url = $.projectRootUrl() + "/managerController/updateOrDeleteArticleByStatus";
+        $.ajax({
+            type: "POST",
+            dataTypes: "json",
+            contentType: "application/json",
+            url: url,
+            data: data,
+            headers: headers,
+            success: function (response) {
+                // 结果的状态
+                let status = response.status;
+                if (status == 0) {
+                    findPageResultAndCurrentPageByCondition();
+                } else {
+                    console.error("Ajax Exception: " + url);
+                }
+                $("#optionButtonModel").modal("hide");
+                $("#optionButtonModel .modal-footer button").removeAttr("disabled")
+            }
+        });
+    }
 
     /**
      * 根据条件查询
@@ -29,6 +142,26 @@ $(document).ready(function(){
     function findPageResultByCondition() {
         // ajax 参数
         let data = JSON.stringify(searchData());
+        // 获取 token
+        let token = $(".container nav #pageValue input[name='_csrf']").val();
+        let headers = {"X-CSRF-TOKEN": token};
+        // 获取项目路径
+        let url = $.projectRootUrl() + "/articleController/findPageArticleResult";
+        ajaxFindPage(headers, data, url);
+    }
+
+    /**
+     * 修改状态后加载当前页
+     */
+    function findPageResultAndCurrentPageByCondition() {
+        // ajax 参数
+        let params = searchData();
+
+        // 获取当前页面数
+        params["currentPage"]=$(".container nav #pageValue input[name='currentPageNum']").val();
+        // 获取总页面数
+        params["pageSize"] = $(".container nav #pageValue input[name='pageSize']").val();
+        let data = JSON.stringify(params);
         // 获取 token
         let token = $(".container nav #pageValue input[name='_csrf']").val();
         let headers = {"X-CSRF-TOKEN": token};
@@ -280,7 +413,7 @@ $(document).ready(function(){
     function reloadTableTrs(resultList) {
         // 查看详情的url
         let rootDescUrl = $.projectRootUrl() + "/articleController/showArticleContent/";
-        let rootProgressUrl = $.projectRootUrl() + "/managerController/manageIndex/";
+        let rootUpdateArticle = $.projectRootUrl() + "/managerController/updateArticle/";
         let tbody = $(".container table tbody");
         // 删除所有的tr
         tbody.children("tr").remove();
@@ -335,16 +468,18 @@ $(document).ready(function(){
             // 操作
             let optionTd = $("<td scope='row' class='articleOperation'></td>");
             let caoZouDiv = $("<div></div>");
-            let pushA = $("<a class='btn btn-success btn-sm active' role='button' aria-pressed='true'>发布</a>");
-            pushA.attr("href", rootDescUrl + resultList[i].aid);
-            let chexiaoA = $("<a class='btn btn-danger btn-sm active' role='button' aria-pressed='true'>撤销</a>");
-            chexiaoA.attr("href", rootProgressUrl + resultList[i].aid);
+            let pushA = $("<button  name='pushArticle' id='1' class='btn btn-success btn-sm active' data-toggle='modal' role='button' aria-pressed='true'>发布</button>");
+            // pushA.attr("href", rootDescUrl + resultList[i].aid);
+            addClickUpdateArticleEvent(pushA);
+            let chexiaoA = $("<button name='cancelArticle' id='0' class='btn btn-danger btn-sm active' data-toggle='modal' role='button' aria-pressed='true'>撤销</button>");
+            // chexiaoA.attr("href", rootProgressUrl + resultList[i].aid);
+            addClickUpdateArticleEvent(chexiaoA);
             // 更新或删除
-            let updateA = $("<a class='btn btn-info btn-sm active ml-1' role='button' aria-pressed='true'>更新</a>");
-            updateA.attr("href", rootDescUrl + resultList[i].aid);
-            let deleteA = $("<a class='btn btn-warning btn-sm active ml-1' role='button' aria-pressed='true'>删除</a>");
-            deleteA.attr("href", rootProgressUrl + resultList[i].aid);
-
+            let updateA = $("<a class='btn btn-info btn-sm active ml-1' name='updateArticle' role='button' aria-pressed='true'>更新</a>");
+            updateA.attr("href", rootUpdateArticle + resultList[i].aid);
+            let deleteA = $("<button class='btn btn-warning btn-sm active ml-1' name='deleteArticle' id='2' data-toggle='modal' role='button' aria-pressed='true'>删除</button>");
+            // deleteA.attr("href", rootProgressUrl + resultList[i].aid);
+            addClickUpdateArticleEvent(deleteA);
             if (resultList[i].status==0){
                 caoZouDiv.append(pushA);
             }else if (resultList[i].status==1){
@@ -357,6 +492,9 @@ $(document).ready(function(){
             tbody.append(tr);
         }
     }
+
+
+
 
 
 });

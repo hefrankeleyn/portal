@@ -4,13 +4,14 @@ import com.hef.qhjiaoyiyuan.base.PageResult;
 import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.Channel;
+import com.hef.qhjiaoyiyuan.bean.exchange.OptionArticleParam;
+import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
 import com.hef.qhjiaoyiyuan.service.ArticleService;
 import com.hef.qhjiaoyiyuan.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -53,5 +54,29 @@ public class ManagerController {
         List<Channel> channelList = channelService.findAllChannel();
         model.addAttribute("channelList",channelList);
         return "manage/addArticle";
+    }
+
+    /**
+     * 更新文章内容
+     * @param aid
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/updateArticle/{aid}", method = RequestMethod.GET)
+    public String updateArticle(@PathVariable("aid") int aid, Model model){
+        Article article = articleService.findArticleByAId(aid);
+        model.addAttribute("article", article);
+        return "manage/updateArticle";
+    }
+
+    /**
+     * 更新或删除作品
+     * @param optionArticleParam
+     * @return
+     */
+    @RequestMapping(value = "/updateOrDeleteArticleByStatus")
+    @ResponseBody
+    public ResponseResult<String> updateOrDeleteArticleByStatus(@RequestBody OptionArticleParam optionArticleParam){
+        return articleService.updateOrDeleteArticleByStatus(optionArticleParam);
     }
 }

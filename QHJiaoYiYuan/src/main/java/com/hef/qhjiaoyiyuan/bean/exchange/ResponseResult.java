@@ -12,6 +12,12 @@ public class ResponseResult<T> {
     private T result;
     private String info;
 
+    public ResponseResult(){}
+
+    public ResponseResult(ResultStatus resultStatus){
+        this.status = resultStatus.getStatus();
+    }
+
     public ResponseResult(ResultStatus resultStatus, T result) {
         this.result = result;
         this.status = resultStatus.getStatus();
