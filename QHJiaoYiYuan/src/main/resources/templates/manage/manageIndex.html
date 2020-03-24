@@ -5,7 +5,7 @@
     <title>期货交易员·管理后台</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
@@ -63,7 +63,7 @@
         <tr th:each="article,rowStatus: ${pageResult.pageObjList}">
             <td scope="col" class="aid" th:id="${article.aid}" th:text="${rowStatus.count}">1</td>
             <td scope="col" class="contentTitle">
-                <a th:href="@{|/articleController/showArticleContent/${article.aid}|}" th:text="${article.contentTitle}"></a>
+                <a th:href="@{|/articleController/showArticleContent/${article.aid}|}" target="_blank" th:text="${article.contentTitle}"></a>
             </td>
             <td scope="col" class="author" th:text="${article.author}"></td>
             <td class="about">

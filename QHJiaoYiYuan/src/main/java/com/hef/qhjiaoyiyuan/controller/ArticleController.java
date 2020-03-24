@@ -63,6 +63,8 @@ public class ArticleController {
 
     @RequestMapping(value = "/showArticleContent/{aid}")
     public String showArticleContent(@PathVariable("aid") int aid, Model model){
+        Article article = articleService.findArticleByAId(aid);
+        model.addAttribute("article",article);
         return "articleContent";
     }
 }

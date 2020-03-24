@@ -2,11 +2,14 @@ package com.hef.qhjiaoyiyuan.service.impl;
 
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.bean.QHUser;
+import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
+import com.hef.qhjiaoyiyuan.bean.exchange.ResultStatus;
 import com.hef.qhjiaoyiyuan.dao.ChannelDao;
 import com.hef.qhjiaoyiyuan.service.ChannelService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -43,6 +46,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
+    @Transactional
     public void saveOrUpdateChannel(Channel channel) {
         if (channel==null) return;
         if (channel.getCid()!=null){
@@ -59,5 +63,19 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public void deleteChannel(Integer cId) {
         channelDao.deleteChannelByCid(cId);
+    }
+
+    @Override
+    public Channel findChannelByCid(Integer cid) {
+        return channelDao.findChannelByCid(cid);
+    }
+
+    @Override
+    public ResponseResult<Channel> findChannelByChannelName(Channel channel) {
+        if (channel==null || StringUtils.isEmpty(channel.getChannelName())){
+            return new ResponseResult(ResultStatus.FAIL,null);
+        }
+        Channel oldChannel = channelDao.findChannelByName(channel.getChannelName());
+        return new ResponseResult(ResultStatus.SUCCESS, oldChannel);
     }
 }

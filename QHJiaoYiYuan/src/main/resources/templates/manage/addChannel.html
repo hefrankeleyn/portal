@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>添加栏目</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/js/common/jquery.min.js}"></script>
+    <script th:src="@{/js/common/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+    <!--    自定义的js 插件-->
+    <script th:src="@{/js/common/url-plugins.js}"></script>
+    <!--    自定义js-->
+    <script th:src="@{/js/manager/addChannel.js}"></script>
+</head>
+<body>
+<nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
+<div class="container">
+    <h1>添加栏目</h1>
+    <form class="was-validated" th:action="@{/managerController/addChannel}" id="channelForm" method="post">
+        <div class="form-group">
+            <label for="channelName">栏目名称：</label>
+            <input type="text" class="form-control" placeholder="栏目名称" name="channelName" id="channelName" required>
+            <div class="invalid-feedback">请输入栏目名称！</div>
+        </div>
+        <div class="form-group">
+            <label for="channelDes">栏目描述：</label>
+            <textarea rows="3" class="form-control" placeholder="栏目描述" name="channelDes" id="channelDes" required></textarea>
+            <div class="invalid-feedback">请输入栏目描述！</div>
+        </div>
+        <div id="submitButton" class="text-center">
+            <button type="submit" id="submitChannelButton" class="btn btn-success btn-lg">提交</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

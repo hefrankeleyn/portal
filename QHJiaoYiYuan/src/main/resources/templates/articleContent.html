@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <meta charset="UTF-8">
-    <title>作品展示</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${article.contentTitle}">期货交易员</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/static/js/common/jquery.min.js}"></script>
+    <script th:src="@{/static/js/common/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 </head>
-<body>
-<h1>这里展示的是作品内容</h1>
+<body class="bg-light">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 bg-white">
+            <div class="pb-2 mt-2 mb-2 border-bottom">
+                <h1 th:text="${article.contentTitle}">页面标题</h1>
+            </div>
+            <div th:utext="${article.contentText}"></div>
+        </div>
+        <div class="col-sm-3 mt-2 col-md-3">
+            <h2>联系我</h2>
+            <img class="rounded center-block img-thumbnail" src="http://140.143.204.224:4869/852aa79bb72f741853afa9ffd69d5da3 " alt="二维码 ">
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -425,7 +425,7 @@ $(document).ready(function(){
             tr.append(aidTh);
             // 标题
             let contentTitleTd = $("<td scope='row' class='contentTitle'></td>");
-            let contentTitleA = $("<a></a>").attr("href", rootDescUrl + resultList[i].aid);
+            let contentTitleA = $("<a></a>").attr("href", rootDescUrl + resultList[i].aid).attr("target=","_blank");
             contentTitleA.text(resultList[i].contentTitle);
             contentTitleTd.append(contentTitleA);
             tr.append(contentTitleTd);

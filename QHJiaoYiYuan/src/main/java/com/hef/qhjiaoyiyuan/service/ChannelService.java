@@ -2,6 +2,7 @@ package com.hef.qhjiaoyiyuan.service;
 
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.bean.QHUser;
+import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
 
 import java.util.List;
 
@@ -38,4 +39,9 @@ public interface ChannelService {
      * @param cId
      */
     void deleteChannel(Integer cId);
+
+    Channel findChannelByCid(Integer cid);
+
+    ResponseResult<Channel> findChannelByChannelName(Channel channel);
+
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>栏目管理</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/js/common/jquery.min.js}"></script>
+    <script th:src="@{/js/common/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+
+    <!--    自定义的js 插件-->
+    <script th:src="@{/js/common/url-plugins.js}"></script>
+    <!--    自定义js-->
+    <script th:src="@{/js/manager/channelIndex.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/manage/channelIndex.css}">
+</head>
+<body>
+<nav th:replace="manage/common/manageHeader :: header-navbar"></nav>
+<div class="container">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h2 class="text-center">栏目管理</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-5">
+            <a class="btn btn-primary mb-2" th:href="@{/managerController/addChannelView}">添加栏目</a>
+            <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}">
+            <ul class="list-group pre-scrollable" id="channelsUl" th:unless="${#lists.isEmpty(channelList)}">
+                <li th:if="${rowStatus.count==1}" th:id="${channel.getCid()}" class="list-group-item list-group-item-action active" th:each="channel,rowStatus:${channelList}" th:text="${channel.channelName}">栏目名称</li>
+                <li th:if="${rowStatus.count!=1}" th:id="${channel.getCid()}" class="list-group-item list-group-item-action" th:each="channel,rowStatus:${channelList}" th:text="${channel.channelName}">栏目名称</li>
+            </ul>
+            <div class="jumbotron" th:if="${#lists.isEmpty(channelList)}">
+                    <h1 class="display-4">暂无栏目</h1>
+                    <p class="lead">暂无栏目，快去添加吧</p>
+            </div>
+        </div>
+        <div class="col-sm-9 col-md-7">
+            <div class="jumbotron" id="channelDetail" th:unless="${#lists.isEmpty(channelList)}">
+                <h1 class="display-4" id="detailHead" th:text="${channelList.get(0).getChannelName()}">名称</h1>
+                <p class="lead" id="detailDesc" th:text="${channelList.get(0).channelDes}">描述</p>
+                <a class="btn btn-warning btn-lg" id="updateChannel" th:href="@{|/managerController/updateChannelView/${channelList.get(0).getCid()}|}" role="button">修改</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteChannelModal">删除</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteChannelModal" tabindex="-1" role="dialog" aria-labelledby="deleteChannelLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteChannelLabel" th:text="'删除《'+${channelList.get(0).getChannelName()}+'》'">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" th:text="'将删除栏目《'+${channelList.get(0).getChannelName()}+'》,是否继续?'">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a type="button" id="deleteChannelLink" th:href="@{|/managerController/deleteChannel/${channelList.get(0).getCid()}|}" class="btn btn-danger">确认删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
