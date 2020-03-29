@@ -5,23 +5,19 @@ package com.hef.qhjiaoyiyuan.bean.exchange;
  * @Date 2020/3/15
  * @Author lifei
  */
-public class ResponseResult<T> {
+public class Result<T> {
 
 
     private Integer status;
     private T result;
     private String info;
 
-    public ResponseResult(){}
+    public Result(){}
 
-    public ResponseResult(ResultStatus resultStatus){
-        this.status = resultStatus.getStatus();
-    }
-
-    public ResponseResult(ResultStatus resultStatus, T result) {
+    public Result(Integer status,String info, T result) {
         this.result = result;
-        this.status = resultStatus.getStatus();
-        this.info = resultStatus.getInfo();
+        this.status = status;
+        this.info = info;
     }
 
     public Integer getStatus() {

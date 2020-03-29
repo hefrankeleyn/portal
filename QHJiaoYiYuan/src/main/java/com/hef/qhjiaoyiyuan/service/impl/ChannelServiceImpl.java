@@ -2,7 +2,7 @@ package com.hef.qhjiaoyiyuan.service.impl;
 
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.bean.QHUser;
-import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
+import com.hef.qhjiaoyiyuan.bean.exchange.Result;
 import com.hef.qhjiaoyiyuan.bean.exchange.ResultStatus;
 import com.hef.qhjiaoyiyuan.dao.ChannelDao;
 import com.hef.qhjiaoyiyuan.service.ChannelService;
@@ -71,11 +71,11 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public ResponseResult<Channel> findChannelByChannelName(Channel channel) {
+    public Result<Channel> findChannelByChannelName(Channel channel) {
         if (channel==null || StringUtils.isEmpty(channel.getChannelName())){
-            return new ResponseResult(ResultStatus.FAIL,null);
+            return new Result(ResultStatus.FAIL.getStatus(),ResultStatus.FAIL.getInfo(),null);
         }
         Channel oldChannel = channelDao.findChannelByName(channel.getChannelName());
-        return new ResponseResult(ResultStatus.SUCCESS, oldChannel);
+        return new Result(ResultStatus.SUCCESS.getStatus(),ResultStatus.SUCCESS.getInfo(), oldChannel);
     }
 }

@@ -3,7 +3,7 @@ package com.hef.qhjiaoyiyuan.controller;
 import com.hef.qhjiaoyiyuan.base.PageResult;
 import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
-import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
+import com.hef.qhjiaoyiyuan.bean.exchange.Result;
 import com.hef.qhjiaoyiyuan.bean.exchange.ResultStatus;
 import com.hef.qhjiaoyiyuan.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +56,9 @@ public class ArticleController {
      */
     @RequestMapping(value = "/findPageArticleResult", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult<PageResult<Article>> findPageArticleResult(@RequestBody ArticleQuery articleQuery){
+    public Result<PageResult<Article>> findPageArticleResult(@RequestBody ArticleQuery articleQuery){
         PageResult<Article> pageArticleList = articleService.findPageArticleList(articleQuery);
-        return new ResponseResult<>(ResultStatus.SUCCESS, pageArticleList);
+        return new Result<>(ResultStatus.SUCCESS.getStatus(),ResultStatus.SUCCESS.getInfo(), pageArticleList);
     }
 
     @RequestMapping(value = "/showArticleContent/{aid}")

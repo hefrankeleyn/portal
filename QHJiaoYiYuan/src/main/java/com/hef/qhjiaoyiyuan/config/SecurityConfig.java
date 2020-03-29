@@ -44,8 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // 要求所有进入应用的http请求都要进行认证
                 // 如果这里使用 anyRequest()  将导致 {@code localhost将您重定向的次数过多} 的异常
-                .antMatchers("/","/home").authenticated()
-//                .antMatchers("/managerController/*","/articleController/*").authenticated()
+//                .antMatchers("/","/home").authenticated()
+                .antMatchers("/managerController/**").authenticated()
+                .antMatchers("/articleController/addArticleSubmit","/articleController/showSuccessView/**").authenticated()
+                .anyRequest().permitAll()
                 .and()
                 // 配置支持基于表单的登陆以及HTTPBasic方式的认证
                 // 调用该方法能将默认的登陆页找回来

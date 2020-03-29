@@ -5,7 +5,8 @@ import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.exchange.ArticleCondition;
 import com.hef.qhjiaoyiyuan.bean.exchange.OptionArticleParam;
-import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
+import com.hef.qhjiaoyiyuan.bean.exchange.ParamCondition;
+import com.hef.qhjiaoyiyuan.bean.exchange.Result;
 
 import java.util.List;
 
@@ -54,5 +55,9 @@ public interface ArticleService {
      * @param optionArticleParam
      * @return
      */
-    ResponseResult<String> updateOrDeleteArticleByStatus(OptionArticleParam optionArticleParam);
+    Result<String> updateOrDeleteArticleByStatus(OptionArticleParam optionArticleParam);
+
+    /** 根据条件查询文件 */
+    Result<List<Article>> findArticleListByCondition(ParamCondition paramCondition);
+    List<Article> findArticleListByParamCondition(ParamCondition paramCondition);
 }

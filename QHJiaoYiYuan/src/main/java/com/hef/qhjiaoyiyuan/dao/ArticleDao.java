@@ -4,6 +4,7 @@ import com.hef.qhjiaoyiyuan.base.impl.ArticleQuery;
 import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.bean.exchange.ArticleCondition;
+import com.hef.qhjiaoyiyuan.bean.exchange.ParamCondition;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -223,4 +224,33 @@ public interface ArticleDao {
             @Result(column = "c_id", property = "channel", javaType = Channel.class,
                     one = @One(select = "com.hef.qhjiaoyiyuan.dao.ChannelDao.findChannelByCid"))})
     List<Article> findPageArticleListByQuery(ArticleQuery articleQuery, int beginRowNum, int pageSize);
+
+    /**
+     * 根据条件查询文章
+     * @param paramCondition
+     * @return
+     */
+    @Select(value = {"<script>" +
+            " SELECT t1.`a_id`, t1.`content_title`, t1.`content_text`, t1.`about`, t1.`content`, " +
+            " t1.`author`, t1.`cover_url`, t1.`issue_time`, t1.`status`, t1.`c_id` FROM `qh_article` t1 " +
+            " inner join " +
+            " qh_channels t2 on t1.c_id=t2.c_id " +
+            " <where> " +
+            " <if test='cid!=null'>and t2.c_id=#{cid}</if> " +
+            " <if test='status!=null and status.size>0'>and t1.status in " +
+            " <foreach item='item' collection='status' open='(' separator=',' close=')'>#{item}</foreach> " +
+            " </if> " +
+            " <if test=\"titleName!=null and titleName!=''\">and t1.content_title like concat('%',#{titleName},'%')</if> " +
+            " </where> " +
+            " </script> "})
+    @Results(value = {@Result(column = "a_id", property = "aid", jdbcType = JdbcType.INTEGER),
+            @Result(column = "content_title", property = "contentTitle", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "content_text", property = "contentText", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "about", property = "about", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "content", property = "content", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "author", property = "author", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "cover_url", property = "coverUrl", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "issue_time", property = "issueTime", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "status", property = "status", jdbcType = JdbcType.INTEGER)})
+    List<Article> findArticleListByParamCondition(ParamCondition paramCondition);
 }

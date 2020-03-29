@@ -6,7 +6,7 @@ import com.hef.qhjiaoyiyuan.bean.Article;
 import com.hef.qhjiaoyiyuan.bean.Channel;
 import com.hef.qhjiaoyiyuan.bean.QHUser;
 import com.hef.qhjiaoyiyuan.bean.exchange.OptionArticleParam;
-import com.hef.qhjiaoyiyuan.bean.exchange.ResponseResult;
+import com.hef.qhjiaoyiyuan.bean.exchange.Result;
 import com.hef.qhjiaoyiyuan.bean.exchange.ResultStatus;
 import com.hef.qhjiaoyiyuan.service.ArticleService;
 import com.hef.qhjiaoyiyuan.service.ChannelService;
@@ -118,7 +118,7 @@ public class ManagerController {
      */
     @RequestMapping(value = "/updateOrDeleteArticleByStatus")
     @ResponseBody
-    public ResponseResult<String> updateOrDeleteArticleByStatus(@RequestBody OptionArticleParam optionArticleParam){
+    public Result<String> updateOrDeleteArticleByStatus(@RequestBody OptionArticleParam optionArticleParam){
         return articleService.updateOrDeleteArticleByStatus(optionArticleParam);
     }
 
@@ -129,9 +129,9 @@ public class ManagerController {
      */
     @RequestMapping(value = "/findChannelByCid/{cid}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseResult<Channel> findChannelByCid(@PathVariable("cid") int cid){
+    public Result<Channel> findChannelByCid(@PathVariable("cid") int cid){
         Channel channel = channelService.findChannelByCid(cid);
-        return new ResponseResult<>(ResultStatus.SUCCESS,channel);
+        return new Result<>(ResultStatus.SUCCESS.getStatus(),ResultStatus.SUCCESS.getInfo(), channel);
     }
 
     /**
@@ -188,7 +188,7 @@ public class ManagerController {
      */
     @RequestMapping(value = "/findChannelByChannelName", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult<Channel> findChannelByChannelName(@RequestBody Channel channel){
+    public Result<Channel> findChannelByChannelName(@RequestBody Channel channel){
         return channelService.findChannelByChannelName(channel);
     }
 }

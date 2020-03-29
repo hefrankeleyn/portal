@@ -1,10 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>期货交易员</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-select.min.css}">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script th:src="@{/js/common/jquery.min.js}"></script>
+    <script th:src="@{/js/common/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap-select.min.js}"></script>
+
+    <!--    自定义的js 插件-->
+    <script th:src="@{/js/common/url-plugins.js}"></script>
+<!--    自定义js-->
+    <script th:src="@{/js/index.js}"></script>
+    <style>
+        #logoTitle {
+            font-size: 1.75rem;
+        }
+        body {
+            font-family: "Microsoft Yahei";
+        }
+    </style>
 </head>
 <body>
-<h1>hello world</h1>
+<div class="container">
+    <div class="text-left border-bottom">
+        <a href="#" class="btn btn-sm titleFontClass" id="logoTitle">期货交易员</a>
+    </div>
+</div>
+
+<div class="container">
+    <input type="hidden" id="hiddenCsrf" th:name="${_csrf.getParameterName()}" th:value="${_csrf.getToken()}">
+    <div class="nav-scroller mb-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex
+                    justify-content-between">
+            <a class="navbar-brand" id="headPageLink" th:href="@{/}">首页</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav pt-1">
+                    <li class="nav-item channelItem" th:each="channel:${channelList}">
+                        <button class="btn btn-link nav-link channelTitle" th:id="${channel.cid}" th:text="${channel.channelName}">期货教程</button>
+                    </li>
+                </ul>
+            </div>
+            <form class="form-inline my-2 my-lg-0" id="searchForm">
+                <input class="form-control mr-sm-2" type="search" name="titleName" placeholder="输入关键词" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 disabled" id="searchSubmitButton" type="button">搜索</button>
+            </form>
+        </nav>
+    </div>
+</div>
+<div class="container">
+    <div class="row px-3 mb-2">
+        <div class="col-md-9 border" id="articleListDiv">
+            <div class="row" th:unless="${#lists.isEmpty(articleList)}" id="articleList">
+                <div class="col-md-3" th:each="article:${articleList}">
+                    <a th:href="@{|/articleController/showArticleContent/${article.aid}|}" target="_blank" th:text="${article.contentTitle}">文章标题</a>
+                </div>
+            </div>
+            <div class="jumbotron  jumbotron-fluid bg-white" th:hidden="${!#lists.isEmpty(articleList)}" id="emptyArticleList">
+                <div class="container">
+                    <!-- <h3 class="display-4">文章还在更新中……</h3> -->
+                    <p class="text-info">文章还在更新中，请耐心等待……</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <img src="http://140.143.204.224:4869/e7a4a9ac0a8bf5c10e1a4ed4b84c7293" alt="二维码" class="img-thumbnail rounded embed-responsive">
+        </div>
+    </div>
+</div>
 </body>
 </html>
