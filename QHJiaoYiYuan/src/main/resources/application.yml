@@ -3,7 +3,7 @@ spring:
     # 关闭控制台 SpringBoot 的艺术字
     banner-mode: "off"
   profiles:
-    active: development
+    active: production
 
 ---
 spring:
@@ -12,7 +12,7 @@ spring:
     url: jdbc:mysql://localhost:3306/hq_jiaoyiyuan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE
     username: qhuser
     password: qhworld
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
 
@@ -24,3 +24,5 @@ spring:
     username: qhuser
     password: qhworld
     driver-class-name: com.mysql.jdbc.Driver
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml

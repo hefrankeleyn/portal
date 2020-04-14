@@ -18,4 +18,13 @@ public class PasswordTest {
         System.out.println(encodePassword);
 
     }
+
+    @Test
+    public void BCryptPasswordTest02(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodePassword = passwordEncoder.encode("world@pass");
+        // $2a$10$6rSFrCQ0Q1iDwnXnahwAVugDUlI5LSSPcqmtdn.7dGhkYJXi5bbV.
+        System.out.println(encodePassword);
+
+    }
 }

@@ -1,9 +1,9 @@
 html,
-body {
+.my-form-login-body {
     height: 100%;
 }
 
-body {
+.my-form-login-body {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
